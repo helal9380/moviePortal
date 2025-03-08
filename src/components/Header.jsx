@@ -2,14 +2,16 @@
 
 import React, { useContext, useState } from "react";
 import moon from "../assets/icons/moon.svg";
+import Sun from "../assets/icons/sun.svg";
 import logo from "../assets/logo.svg";
 import ring from "../assets/ring.svg";
 import cart from "../assets/shopping-cart.svg";
-import { MovieContext } from "../context";
+import { MovieContext, ThemeContext } from "../context";
 import CartDetails from "./CartDetails";
 const Header = () => {
   const [showDetails, setShowDetails] = useState(false);
   const { carts } = useContext(MovieContext);
+  const { showTheme, setShowTheme } = useContext(ThemeContext);
   return (
     <header>
       {showDetails && <CartDetails onClose={() => setShowDetails(false)} />}
@@ -38,10 +40,11 @@ const Header = () => {
           </li>
           <li>
             <a
+              onClick={() => setShowTheme((showTheme) => !showTheme)}
               className="bg-primary/20 dark:bg-primary/[7%] rounded-lg backdrop-blur-[2px] p-1 inline-block"
               href="#">
               <img
-                src={moon}
+                src={showTheme ? moon : Sun}
                 width="24"
                 height="24"
                 alt=""

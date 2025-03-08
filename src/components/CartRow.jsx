@@ -2,6 +2,7 @@
 
 import React, { useContext } from "react";
 import { toast } from "react-toastify";
+import deleteImg from "../assets/delete.svg";
 import { MovieContext } from "../context";
 import { getImageUrl } from "../utils";
 const CartRow = ({ cart }) => {
@@ -31,7 +32,7 @@ const CartRow = ({ cart }) => {
         <button className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white">
           <img
             className="w-5 h-5"
-            src="./assets/delete.svg"
+            src={deleteImg}
             alt=""
           />
           <a
