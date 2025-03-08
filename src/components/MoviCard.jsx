@@ -1,6 +1,8 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { toast } from "react-toastify";
+import { MovieContext } from "../context";
 import { getImageUrl } from "../utils";
 import MovieDetailModal from "./MovieDetailModal";
 import Rating from "./Rating";
@@ -8,7 +10,20 @@ import Rating from "./Rating";
 const MoviCard = ({ movie }) => {
   const [isModal, setIsModal] = useState(false);
   const [movieDetail, setMovieDetail] = useState(null);
+  const { carts, setCarts } = useContext(MovieContext);
 
+  const handleAddToCart = (e, movie) => {
+    e.stopPropagation();
+    const found = carts.find((cart) => cart.id === movie.id);
+    if (!found) {
+      setCarts([...carts, movie]);
+      setIsModal(false);
+      toast(`the ${movie.title} is added`);
+    } else {
+      setIsModal(false);
+      console.log("already added to the cart");
+    }
+  };
   const handleOpenModal = (movie) => {
     setIsModal(true);
     setMovieDetail(movie);
@@ -19,6 +34,7 @@ const MoviCard = ({ movie }) => {
       {isModal && (
         <MovieDetailModal
           movieDetail={movieDetail}
+          onAddToCart={handleAddToCart}
           onClose={() => {
             setIsModal(false);
             setMovieDetail(null);
@@ -46,7 +62,11 @@ const MoviCard = ({ movie }) => {
               src="./assets/tag.svg"
               alt=""
             />
-            <span>${movie.price} | Add to Cart</span>
+            <a
+              href="#"
+              onClick={(e) => handleAddToCart(e, movie)}>
+              <span>${movie.price} | Add to Cart</span>
+            </a>
           </a>
         </figcaption>
       </figure>
